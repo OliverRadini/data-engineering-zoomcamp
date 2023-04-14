@@ -4,6 +4,6 @@ RUN pip install pandas sqlalchemy psycopg2 wget pyarrow
 
 WORKDIR /app
 
-COPY ../ingestion_scripts/initial/first.py index.py
+COPY ingest.py ingest.py
 
 CMD [ "python", "./helloworld.py"]
