@@ -1,0 +1,72 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.4.4
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    bind-mount-options: /mnt/c/dev/code/045_data_engineering/podman_stuff/ny_taxi_postg
+  creationTimestamp: "2023-04-14T10:19:12Z"
+  labels:
+    app: postgre-sql
+  name: postgre-sql
+spec:
+  containers:
+  - env:
+    - name: PGADMIN_DEFAULT_PASSWORD
+      value: qwerty
+    - name: PGADMIN_DEFAULT_EMAIL
+      value: oliver@pebblepad.co.uk
+    image: docker.io/dpage/pgadmin4:latest
+    name: pgadmin
+    ports:
+    - containerPort: 5876
+      hostPort: 5876
+    - containerPort: 80
+      hostPort: 9876
+    resources: {}
+    securityContext: {}
+    volumeMounts:
+    - mountPath: /var/lib/pgadmin
+      name: de07c04bc31c137bca6f616168ef8d55e5f6ae4914eb7ad7c487c9037ccbde53-pvc
+  - args:
+    - postgres
+    env:
+    - name: POSTGRES_PASSWORD
+      value: qwerty
+    - name: POSTGRES_USER
+      value: oliver@pebblepad.co.uk
+    image: docker.io/library/postgres:14
+    name: db
+    resources: {}
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: 14b971127d4c01d778f999676f2684a40deab399c6cf029d07274eeca3d635fd-pvc
+  - args:
+    - postgres
+    env:
+    - name: POSTGRES_USER
+      value: oliver@pebblepad.co.uk
+    - name: POSTGRES_PASSWORD
+      value: qwerty
+    image: docker.io/library/postgres:14
+    name: db2
+    resources: {}
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: mnt-c-dev-code-045_data_engineering-podman_stuff-ny_taxi_postgres_data-host-0
+  hostname: postgre-sql
+  restartPolicy: Never
+  volumes:
+  - name: de07c04bc31c137bca6f616168ef8d55e5f6ae4914eb7ad7c487c9037ccbde53-pvc
+    persistentVolumeClaim:
+      claimName: de07c04bc31c137bca6f616168ef8d55e5f6ae4914eb7ad7c487c9037ccbde53
+  - name: 14b971127d4c01d778f999676f2684a40deab399c6cf029d07274eeca3d635fd-pvc
+    persistentVolumeClaim:
+      claimName: 14b971127d4c01d778f999676f2684a40deab399c6cf029d07274eeca3d635fd
+  - hostPath:
+      path: /mnt/c/dev/code/045_data_engineering/podman_stuff/ny_taxi_postgres_data
+      type: Directory
+    name: mnt-c-dev-code-045_data_engineering-podman_stuff-ny_taxi_postgres_data-host-0
+status: {}

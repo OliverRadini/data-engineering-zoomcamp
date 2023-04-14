@@ -1,0 +1,52 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.4.4
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2023-04-14T09:48:41Z"
+  labels:
+    app: postgre-sql
+  name: postgre-sql
+spec:
+  containers:
+  - env:
+    - name: PGADMIN_DEFAULT_PASSWORD
+      value: qwerty
+    - name: PGADMIN_DEFAULT_EMAIL
+      value: oliver@pebblepad.co.uk
+    image: docker.io/dpage/pgadmin4:latest
+    name: pgadmin
+    ports:
+    - containerPort: 80
+      hostPort: 9876
+    resources: {}
+    securityContext: {}
+    volumeMounts:
+    - mountPath: /var/lib/pgadmin
+      name: 21e89ef049dfcf8678b451308edc69b373a32d9f34b20d44198c67b8ed7c2d5a-pvc
+  - args:
+    - postgres
+    env:
+    - name: POSTGRES_USER
+      value: oliver@pebblepad.co.uk
+    - name: POSTGRES_PASSWORD
+      value: qwerty
+    image: docker.io/library/postgres:14
+    name: db
+    resources: {}
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: mnt-c-dev-code-045_data_engineering-podman_stuff-ny_taxi_postgres_data-host-0
+  hostname: postgre-sql
+  restartPolicy: Never
+  volumes:
+  - name: 21e89ef049dfcf8678b451308edc69b373a32d9f34b20d44198c67b8ed7c2d5a-pvc
+    persistentVolumeClaim:
+      claimName: 21e89ef049dfcf8678b451308edc69b373a32d9f34b20d44198c67b8ed7c2d5a
+  - hostPath:
+      path: /mnt/c/dev/code/045_data_engineering/podman_stuff/ny_taxi_postgres_data
+      type: Directory
+    name: mnt-c-dev-code-045_data_engineering-podman_stuff-ny_taxi_postgres_data-host-0
+status: {}
