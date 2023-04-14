@@ -6,4 +6,4 @@ WORKDIR /app
 
 COPY ingest.py ingest.py
 
-CMD [ "python", "./helloworld.py"]
+ENTRYPOINT [ "python", "./ingest.py"]

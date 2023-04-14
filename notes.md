@@ -23,3 +23,6 @@ podman run --name pgdatabase -v pg-data:/var/lib/postgresql/data:Z --pod=postgre
 run python script for ingestion:
 
 python first.py --user=admin@admin.com --password=root --host=localhost --port=5432 --db=de --table_name=yellow_taxi_data --url=https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet
+
+
+podman run --pod postgre-sql taxi_ingest:v001 --user=admin@admin.com --password=root --host=localhost --port=5432 --db=de --table_name=yellow_taxi_data --url=https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet
