@@ -26,3 +26,8 @@ python first.py --user=admin@admin.com --password=root --host=localhost --port=5
 
 
 podman run --pod postgre-sql taxi_ingest:v001 --user=admin@admin.com --password=root --host=localhost --port=5432 --db=de --table_name=yellow_taxi_data --url=https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet
+
+
+### GCP
+
+- setup with email olivierrandini@gmail.com
