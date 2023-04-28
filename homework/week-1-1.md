@@ -23,6 +23,7 @@ Which tag has the following text? - *Write the image ID to the file*
 
 I used podman for this, and I don't have docker installed; but looking at the [docs file](https://github.com/docker/docs/blob/1f1a8de5fe3ac2d3f3357333fc7d26d59235e17e/_data/buildx/docker_buildx_build.yaml#L187) I'm guessing it's iidfile 
 
+_After checking, this answer is correct_
 
 ## Question 2. Understanding docker first run 
 
@@ -50,6 +51,8 @@ I had the following output:
 | wheel   |   0.40.0 |
 
 And so it would seem the answer is 3.
+
+_After checking, this answer is correct_
 
 # Prepare Postgres
 
@@ -97,6 +100,8 @@ and
 
 and the count shows 20530.
 
+_After checking, this is correct; but could have used date(lpep_pickup_datetime)='2019-01-15' instead_
+
 ## Question 4. Largest trip for each day
 
 Which was the day with the largest trip distance
@@ -130,6 +135,8 @@ and
 - 10th: 78572
 
 According to this calculation, the date with the most trips would be the **10th**.
+
+_After checking, what was actually wanted here was the day with the single biggest trip._
 
 ## Question 5. The number of passengers
 
