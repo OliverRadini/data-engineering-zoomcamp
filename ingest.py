@@ -3,14 +3,18 @@ import pandas as pd
 import wget
 from sqlalchemy import create_engine
 
+
 def main(params):
     engine = create_engine(f"postgresql://{params.user}:{params.password}@{params.host}:{params.port}/{params.db}")
+
+    download_file_name = "./{url}".format(url=params.url.split("/")[-1])
     
-    parquet_name = "./output.parquet"
-
-    wget.download(params.url, out=parquet_name)
-
-    dataframe = pd.read_parquet(parquet_name)
+    wget.download(params.url, out=download_file_name)
+    
+    if ".csv" in download_file_name:
+        dataframe = pd.read_csv(download_file_name)
+    else:
+        dataframe = pd.read_parquet(download_file_name)
 
     if (hasattr(dataframe, "tpep_pickup_datetime")):
         dataframe.tpep_pickup_datetime = pd.to_datetime(dataframe.tpep_pickup_datetime)
