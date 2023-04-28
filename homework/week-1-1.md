@@ -136,7 +136,17 @@ and
 
 According to this calculation, the date with the most trips would be the **10th**.
 
-_After checking, what was actually wanted here was the day with the single biggest trip._
+_After checking, what was actually wanted here was the day with the single biggest trip. I switched to using the following query:_
+
+```sql
+select
+	date(lpep_pickup_datetime) as "Pickup date",
+	max(trip_distance) as "Longest trip"
+from
+	yellow_taxi_data
+group by "Pickup date"
+order by "Longest trip" desc
+```
 
 ## Question 5. The number of passengers
 
@@ -172,6 +182,7 @@ and
 
 The answer for this was 2: 1282, 3: 254
 
+_After checking, this is correct._
 
 ## Question 6. Largest tip
 
@@ -211,6 +222,8 @@ order by
 ```
 
 Then, looking at the top result, there was a tip of $88 from Astoria to Long Island City/Queens Plaza
+
+_After checking, this is correct._
 
 
 ## Submitting the solutions
