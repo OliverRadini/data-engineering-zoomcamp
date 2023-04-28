@@ -12,8 +12,12 @@ def main(params):
 
     dataframe = pd.read_parquet(parquet_name)
 
-    dataframe.tpep_pickup_datetime = pd.to_datetime(dataframe.tpep_pickup_datetime)
-    dataframe.tpep_dropoff_datetime = pd.to_datetime(dataframe.tpep_dropoff_datetime)
+    if (hasattr(dataframe, "tpep_pickup_datetime")):
+        dataframe.tpep_pickup_datetime = pd.to_datetime(dataframe.tpep_pickup_datetime)
+        dataframe.tpep_dropoff_datetime = pd.to_datetime(dataframe.tpep_dropoff_datetime)
+    else:
+        dataframe.lpep_pickup_datetime = pd.to_datetime(dataframe.lpep_pickup_datetime)
+        dataframe.lpep_dropoff_datetime = pd.to_datetime(dataframe.lpep_dropoff_datetime)
 
     dataframe.to_sql(name=params.table_name, con=engine, if_exists="replace")
 
