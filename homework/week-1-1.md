@@ -82,7 +82,7 @@ Remember that `lpep_pickup_datetime` and `lpep_dropoff_datetime` columns are in 
 
 After adjusting my script to allow csv downloads, I used the following query for this:
 
-```
+```sql
 select COUNT (*)
 from yellow_taxi_data
 where
@@ -107,6 +107,23 @@ Use the pick up time for your calculations.
 - 2019-01-15
 - 2019-01-10
 
+I am attempting to answer this as; in total, which day had the largest total distance travelled?
+
+The query I am using is:
+
+```sql
+select SUM(trip_distance)
+from yellow_taxi_data
+where
+	lpep_pickup_datetime >=  '2019-01-10 00:00:00'
+and
+	lpep_pickup_datetime <= '2019-01-10 23:59:59'
+and
+	lpep_dropoff_datetime >= '2019-01-10 00:00:00'
+and
+	lpep_dropoff_datetime <= '2019-01-10 23:59:59'
+```
+
 - 18th: 75330.6
 - 28th: 73335.3
 - 15th: 74179
@@ -124,6 +141,31 @@ In 2019-01-01 how many trips had 2 and 3 passengers?
 - 2: 1282 ; 3: 274
 
 
+I adjusted the query from above slightly as it seemed this question expects only journeys which has a start time and finish time both on the 1st; no cross journey days.
+
+```sql
+
+select *
+from yellow_taxi_data
+where
+	passenger_count=3
+and
+(
+	(
+			lpep_pickup_datetime >=  '2019-01-01 00:00:01'
+		and
+			lpep_pickup_datetime <= '2019-01-01 23:59:59'
+	) or (
+			lpep_dropoff_datetime >= '2019-01-01 00:00:01'
+		and
+			lpep_dropoff_datetime <= '2019-01-01 23:59:59'
+		)
+	)
+```
+
+The answer for this was 2: 1282, 3: 254
+
+
 ## Question 6. Largest tip
 
 For the passengers picked up in the Astoria Zone which was the drop off zone that had the largest tip?
@@ -135,6 +177,33 @@ Note: it's not a typo, it's `tip` , not `trip`
 - Jamaica
 - South Ozone Park
 - Long Island City/Queens Plaza
+
+### Answer
+
+I used the following query for this:
+
+```sql
+select
+	ytd.tip_amount,
+	tz_pu.zone as "Pickup zone",
+	tz_do.zone as "Dropoff zone"
+from
+	yellow_taxi_data ytd
+join
+	taxi_zone tz_pu
+on
+	ytd."PULocationID" = tz_pu.location_id
+join
+	taxi_zone tz_do
+on
+	ytd."DOLocationID" = tz_do.location_id
+where
+	tz_pu.zone = 'Astoria'
+order by
+	tip_amount desc
+```
+
+Then, looking at the top result, there was a tip of $88 from Astoria to Long Island City/Queens Plaza
 
 
 ## Submitting the solutions
