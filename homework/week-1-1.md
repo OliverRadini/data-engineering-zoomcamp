@@ -107,6 +107,13 @@ Use the pick up time for your calculations.
 - 2019-01-15
 - 2019-01-10
 
+- 18th: 75330.6
+- 28th: 73335.3
+- 15th: 74179
+- 10th: 78572
+
+According to this calculation, the date with the most trips would be the **10th**.
+
 ## Question 5. The number of passengers
 
 In 2019-01-01 how many trips had 2 and 3 passengers?
