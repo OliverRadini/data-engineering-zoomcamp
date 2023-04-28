@@ -78,6 +78,25 @@ Remember that `lpep_pickup_datetime` and `lpep_dropoff_datetime` columns are in 
 - 17630
 - 21090
 
+### Answer
+
+After adjusting my script to allow csv downloads, I used the following query for this:
+
+```
+select COUNT (*)
+from yellow_taxi_data
+where
+	lpep_pickup_datetime >= '2019-01-15 00:00:00'
+and
+	lpep_pickup_datetime <= '2019-01-15 23:59:59'
+and
+	lpep_dropoff_datetime >= '2019-01-15 00:00:00'
+and
+	lpep_dropoff_datetime <= '2019-01-15 23:59:59'
+```
+
+and the count shows 20530.
+
 ## Question 4. Largest trip for each day
 
 Which was the day with the largest trip distance
