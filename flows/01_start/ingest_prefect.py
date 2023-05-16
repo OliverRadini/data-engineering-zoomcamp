@@ -1,15 +1,9 @@
 import argparse
 import pandas as pd
 import wget
-from sqlalchemy import create_engine
+from prefect_sqlalchemy import SqlAlchemyConnector
 from prefect import flow, task
 from prefect.tasks import task_input_hash
-
-
-@task(log_prints=True, retries=3)
-def get_engine(user, password, host, port, db):
-    engine = create_engine(f"postgresql://{user}:{password}@{host}:{port}/{db}")
-    return engine
 
 
 def get_file_name(url):
@@ -17,12 +11,10 @@ def get_file_name(url):
     return download_file_name
 
 
-@task(log_prints=True, retries=5)
 def download_from_url(url, output_file_name):
     wget.download(url, out=output_file_name)
 
 
-@task(log_prints=True, retries=0)
 def get_dataframe_from_file(download_file_name):
     if ".csv" in download_file_name:
         dataframe = pd.read_csv(download_file_name)
@@ -32,7 +24,6 @@ def get_dataframe_from_file(download_file_name):
     return dataframe
 
 
-@task(log_prints=True, retries=0)
 def set_dataframe_datetime_attributes(dataframe):
     if (hasattr(dataframe, "tpep_pickup_datetime")):
         dataframe.tpep_pickup_datetime = pd.to_datetime(dataframe.tpep_pickup_datetime)
@@ -58,28 +49,16 @@ def data_url_to_dataframe(url):
 
 
 @flow(name="Ingest flow", retries=0)
-def main(user, password, host, port, db, url, table_name):
-    engine = get_engine(user, password, host, port, db)
-
+def main(url, table_name):
     dataframe = data_url_to_dataframe(url)
 
-    run_sql_dataframe(dataframe, table_name, engine)
+    connection_block = SqlAlchemyConnector.load("mainlocalde")
+    with connection_block.get_connection(begin=False) as engine:
+        run_sql_dataframe(dataframe, table_name, engine)
 
 
 if (__name__ == "__main__"):
-    parser = argparse.ArgumentParser(
-        prog="Parquet taxi data ingestion script",
-        description="Ingest data from parquet files and insert them into sql tables"
-    )
+    url="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2021-01.parquet"
+    table_name="yellow_taxi_data"
 
-    parser.add_argument("--user", help="username for postgres")
-    parser.add_argument("--password", help="password for postgres")
-    parser.add_argument("--host", help="host for postgres")
-    parser.add_argument("--port", help="port for postgres")
-    parser.add_argument("--db", help="db for postgres")
-    parser.add_argument("--table_name", help="table-name into which data should be inserted")
-    parser.add_argument("--url", help="url of the file")
-
-    args = parser.parse_args()
-
-    main(args.user, args.password, args.host, args.port, args.db, args.url, args.table_name)
+    main(url, table_name)
