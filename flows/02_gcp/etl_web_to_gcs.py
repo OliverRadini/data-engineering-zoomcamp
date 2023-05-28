@@ -6,7 +6,11 @@ from prefect_gcp.cloud_storage import GcsBucket
 @task()
 def write_local(df, color, dataset_file):
     """write dataframe out as a parquet file"""
-    path = Path(f"data/{color}/{dataset_file}.parquet")
+    directory = Path(f"data/{color}/")
+    path = Path(f"{directory}{dataset_file}.parquet")
+
+    directory.mkdir(parents=True, exist_ok=True)
+
     df.to_parquet(path, compression="gzip")
     return path
 
@@ -23,20 +27,36 @@ def fetch(dataset_url):
     df = pd.read_csv(dataset_url)
     return df
 
+
 @task(log_prints=True)
 def clean(df):
     """Fix some dtype issues"""
-    df['tpep_pickup_datetime'] = pd.to_datetime(df['tpep_pickup_datetime'])
-    df['tpep_dropoff_datetime'] = pd.to_datetime(df['tpep_dropoff_datetime'])
+    print("=" * 20)
+    print("PRE:")
     print(f"columns: {df.dtypes}")
     print(f"rows: {len(df)}")
+    print("=" * 20)
+
+    if (hasattr(df, "tpep_pickup_datetime")):
+        df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
+        df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+    else:
+        df.lpep_pickup_datetime = pd.to_datetime(df.lpep_pickup_datetime)
+        df.lpep_dropoff_datetime = pd.to_datetime(df.lpep_dropoff_datetime)
+
+    print("=" * 20)
+    print("POST:")
+    print(f"columns: {df.dtypes}")
+    print(f"rows: {len(df)}")
+    print("=" * 20)
     return df
+
 
 @flow()
 def etl_web_to_gcs():
     """The main ETL function"""
-    color = "yellow"
-    year = 2021
+    color = "green"
+    year = 2020
     month = 1
     dataset_file = f"{color}_tripdata_{year}-{month:02}"
     dataset_url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{dataset_file}.csv.gz"
