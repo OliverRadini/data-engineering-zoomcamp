@@ -1,0 +1,50 @@
+###
+### A complete description of a Prefect Deployment for flow 'etl-gcs-to-bq'
+###
+name: homework2
+description: Main ETL to load data to biq query
+version: 7b70d09c14682b2db66f488e12a8d2b5
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+tags: []
+parameters: { "color": "yellow", "months": [2, 3], "year": 2019 }
+schedule: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: etl-gcs-to-bq
+manifest_path: null
+storage: null
+path: /home/donutttt/code/001_data_engineering/data-engineering-zoomcamp
+entrypoint: homework/week_2_bq.py:etl_gcs_to_bq
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    color:
+      title: color
+      default: yellow
+      position: 0
+    year:
+      title: year
+      default: 2021
+      position: 1
+    months:
+      title: months
+      default:
+      - 1
+      position: 2
+  required: null
+  definitions: null
