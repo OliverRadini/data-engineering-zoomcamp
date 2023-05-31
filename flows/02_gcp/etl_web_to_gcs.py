@@ -7,7 +7,7 @@ from prefect_gcp.cloud_storage import GcsBucket
 def write_local(df, color, dataset_file):
     """write dataframe out as a parquet file"""
     directory = Path(f"data/{color}/")
-    path = Path(f"{directory}{dataset_file}.parquet")
+    path = Path(f"{directory}/{dataset_file}.parquet")
 
     directory.mkdir(parents=True, exist_ok=True)
 
@@ -57,7 +57,7 @@ def etl_web_to_gcs():
     """The main ETL function"""
     color = "yellow"
     year = 2019
-    month = 3
+    month = 2
     dataset_file = f"{color}_tripdata_{year}-{month:02}"
     dataset_url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{dataset_file}.csv.gz"
 

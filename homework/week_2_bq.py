@@ -22,7 +22,6 @@ def to_df(path):
 @task(retries=3)
 def write_bq(df):
     """Write dataframe to big query"""
-
     gcp_credentials_block = GcpCredentials.load("de-zoomcamp-creds")
 
     df.to_gbq(
@@ -39,8 +38,8 @@ def etl_gcs_to_bq(color="yellow", year=2021, months=[1]):
     """Main ETL to load data to biq query"""
     for month in months:
         path = extract_from_gcs(color, year, month)
-        print(f">>> For {color} trip data in month {month} in year {year}, there are {len(df)} rows")
         df = to_df(path)
+        print(f">>> For {color} trip data in month {month} in year {year}, there are {len(df)} rows")
         write_bq(df)
 
 if __name__ == "__main__":

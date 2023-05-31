@@ -3,13 +3,24 @@
 ###
 name: homework2
 description: Main ETL to load data to biq query
-version: 7b70d09c14682b2db66f488e12a8d2b5
+version: 4ea74f0a82f0d889853489b7e86aff02
 # The work queue that will handle this deployment's runs
 work_queue_name: default
 tags: []
-parameters: { "color": "yellow", "months": [2, 3], "year": 2019 }
+parameters:
+  color: yellow
+  months:
+  - 2
+  - 3
+  year: 2019
 schedule: null
 infra_overrides: {}
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: etl-gcs-to-bq
+manifest_path: null
 infrastructure:
   type: process
   env: {}
@@ -18,14 +29,11 @@ infrastructure:
   command: null
   stream_output: true
   working_dir: null
+  _block_document_id: 443bdc56-cd79-40eb-8bd8-722fc1e33ec1
+  _block_document_name: anonymous-857db7ad-2f71-45fd-a37c-8117bcdbdf99
+  _is_anonymous: true
   block_type_slug: process
   _block_type_slug: process
-
-###
-### DO NOT EDIT BELOW THIS LINE
-###
-flow_name: etl-gcs-to-bq
-manifest_path: null
 storage: null
 path: /home/donutttt/code/001_data_engineering/data-engineering-zoomcamp
 entrypoint: homework/week_2_bq.py:etl_gcs_to_bq
