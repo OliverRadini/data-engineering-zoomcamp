@@ -34,13 +34,17 @@ def write_bq(df):
 
 
 @flow(log_prints=True)
-def etl_gcs_to_bq(color="yellow", year=2021, months=[1]):
+def etl_gcs_to_bq(color="yellow", year=2019, months=[2, 3]):
     """Main ETL to load data to biq query"""
+    total = 0
     for month in months:
         path = extract_from_gcs(color, year, month)
         df = to_df(path)
+        total += len(df)
         print(f">>> For {color} trip data in month {month} in year {year}, there are {len(df)} rows")
         write_bq(df)
+
+    print(f"!>!>!>!>!>!>!>!>!>!>!>!> {total}")
 
 if __name__ == "__main__":
     etl_gcs_to_bq()
