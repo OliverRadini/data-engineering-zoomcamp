@@ -1,3 +1,6 @@
 /keys
 /data/*
 /homework/__pycache__/
+/reference/keys
+/reference/data/*
+/reference/homework/__pycache__/

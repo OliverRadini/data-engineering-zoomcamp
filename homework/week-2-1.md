@@ -54,5 +54,27 @@ How many rows were processed by the script?
 
 - [ ] 88,019
 - [ ] 192,297
-- [ ] 88,605
+- [x] 88,605
 - [ ] 190,225
+
+> Note: Skipping prefect aspect of this for now as my local install isn't working on this machine. Need to return to this later but need to move onto data engineering specific stuff.
+
+### Question 5. Slack and Email Notifications
+
+Set up an Automation that will send yourself an email when a flow run completes. Run the deployment used in Q4 for the Green taxi data for April 2019. Check your email to see the notification.
+
+How many rows were processed by the script?
+
+- [ ] 125,268
+- [ ] 377,922
+- [ ] 728,390
+- [ ] 514,392
+
+### Question 6. Secrets
+
+Prefect Secret blocks provide secure, encrypted storage in the database and obfuscation in the UI. Create a secret block in the UI that stores a fake 10-digit password to connect to a third-party service. Once you’ve created your block in the UI, how many characters are shown as asterisks (*) on the next page of the UI?
+
+- [ ] 5
+- [ ] 6
+- [ ] 8
+- [ ] 10
