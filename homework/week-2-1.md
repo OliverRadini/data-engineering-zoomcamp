@@ -68,9 +68,11 @@ How many rows were processed by the script?
 - [ ] 125,268
 - [ ] 377,922
 - [ ] 728,390
-- [ ] 514,392
+- [x] 514,392
 
 ### Question 6. Secrets
+
+> Note: Not using prefect for now so skipping this
 
 Prefect Secret blocks provide secure, encrypted storage in the database and obfuscation in the UI. Create a secret block in the UI that stores a fake 10-digit password to connect to a third-party service. Once you’ve created your block in the UI, how many characters are shown as asterisks (*) on the next page of the UI?
 
