@@ -4,3 +4,5 @@
 /reference/keys
 /reference/data/*
 /reference/homework/__pycache__/
+/etl_scripts/__pycache__
+/etl_scripts/util/__pycache__
