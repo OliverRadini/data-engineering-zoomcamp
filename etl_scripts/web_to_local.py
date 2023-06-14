@@ -1,6 +1,6 @@
 import pandas as pd
 from pathlib import Path
-import argparse, sys
+import argparse
 
 parser = argparse.ArgumentParser()
 

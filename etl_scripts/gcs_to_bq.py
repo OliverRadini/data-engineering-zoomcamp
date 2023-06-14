@@ -1,11 +1,17 @@
 from google.cloud import bigquery
+import argparse
 
 PROJECT_NAME = "sturdy-ranger-384021"
 DATASET = "dezoomcamp"
 FILE_ROOT = f"gs://dtc_data_lake_sturdy-ranger-384021/data/"
 
+parser = argparse.ArgumentParser()
 
-# TODO: make this work with command line arguments
+parser.add_argument("--table_name")
+parser.add_argument("--file_location")
+
+args = parser.parse_args()
+
 
 def gcs_to_bq(table_name, file_location):
     client = bigquery.Client()
@@ -30,3 +36,6 @@ def gcs_to_bq(table_name, file_location):
 
     destination_table = client.get_table(table_id)
     print("Loaded {} rows.".format(destination_table.num_rows))
+
+
+gcs_to_bq(args.table_name, args.file_location)
