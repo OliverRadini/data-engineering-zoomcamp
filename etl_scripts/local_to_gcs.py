@@ -1,4 +1,5 @@
 import argparse
+import pandas as pd
 from google.cloud import storage
 from util.authenticate_gcp import authenticate_gcp
 from util.write_to_gcs import write_to_gcs
@@ -8,19 +9,20 @@ PROJECT_NAME = "sturdy-ranger-384021"
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--file")
-parser.add_argument("--bucket")
+parser.add_argument("--color")
+parser.add_argument("--year")
+parser.add_argument("--month")
 
 args = parser.parse_args()
 
 authenticate_gcp(PROJECT_NAME)
 
-def local_to_gcs(file_location, contents):
-    write_to_gcs(BUCKET_NAME, f"data/{file_location}", contents)
+month = args.month.zfill(2);
+file_name = f"{args.color}_tripdata_{args.year}-{month}.csv"
+local_location = f"./data/{args.color}/{file_name}"
 
-print("About to read file...")
+print(f"About to read file from {local_location}...")
 
-with open(args.file) as f:
-    print("File read, writing to GCS...")
-    local_to_gcs(args.bucket, f.read())
-    print("Done")
+df = pd.read_csv(local_location, compression="gzip")
+
+df.to_csv(f"gs://{BUCKET_NAME}/data/{args.color}/{file_name}")

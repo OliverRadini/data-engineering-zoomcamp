@@ -29,7 +29,7 @@ def gcs_to_bq(table_name, file_location):
     )
 
     load_job = client.load_table_from_uri(
-        f"{FILE_ROOT}{file_location}", table_id, job_config=job_config
+        file_location, table_id, job_config=job_config
     )
 
     load_job.result()

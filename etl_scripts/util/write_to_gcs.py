@@ -2,6 +2,9 @@ from google.cloud import storage
 
 def write_to_gcs(bucket_name, blob_name, contents):
     print(f"Writing to bucket {bucket_name}, blob {blob_name}")
+    print("writing the contents:")
+
+    print(contents)
 
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)

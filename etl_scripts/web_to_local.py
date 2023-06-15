@@ -19,11 +19,11 @@ def web_to_local(color, year, month):
     df = pd.read_csv(dataset_url)
 
     directory = Path(f"data/{color}/")
-    path = Path(f"{directory}/{dataset_file}.parquet")
+    path = Path(f"{directory}/{dataset_file}.csv")
 
     directory.mkdir(parents=True, exist_ok=True)
 
-    df.to_parquet(path, compression="gzip")
+    df.to_csv(path, compression="gzip")
 
     print(f"""
         Dataframe read 
