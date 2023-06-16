@@ -1,19 +1,11 @@
-import argparse
 import pandas as pd
-from google.cloud import storage
+from util.parse_standard_args import parse_standard_args
 from util.authenticate_gcp import authenticate_gcp
-from util.write_to_gcs import write_to_gcs
 
 BUCKET_NAME = "dtc_data_lake_sturdy-ranger-384021"
 PROJECT_NAME = "sturdy-ranger-384021"
 
-parser = argparse.ArgumentParser()
-
-parser.add_argument("--color")
-parser.add_argument("--year")
-parser.add_argument("--month")
-
-args = parser.parse_args()
+args = parse_standard_args()
 
 authenticate_gcp(PROJECT_NAME)
 

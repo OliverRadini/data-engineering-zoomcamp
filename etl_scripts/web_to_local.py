@@ -1,14 +1,9 @@
 import pandas as pd
 from pathlib import Path
-import argparse
 
-parser = argparse.ArgumentParser()
+from util.parse_standard_args import parse_standard_args
 
-parser.add_argument("--color")
-parser.add_argument("--month")
-parser.add_argument("--year")
-
-args = parser.parse_args()
+args = parse_standard_args()
 
 def web_to_local(color, year, month):
     dataset_file = f"{color}_tripdata_{year}-{month:02}"
