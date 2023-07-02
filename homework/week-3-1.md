@@ -19,17 +19,19 @@ What is the estimated amount of data that will be read when this query is execut
 
 ## Question 3:
 How many records have both a blank (null) PUlocationID and DOlocationID in the entire dataset?
-- 717,748
-- 1,215,687
-- 5
-- 20,332
+- [x] 717,748
+- [ ] 1,215,687
+- [ ] 5
+- [ ] 20,332
 
 ## Question 4:
 What is the best strategy to optimize the table if query always filter by pickup_datetime and order by affiliated_base_number?
-- Cluster on pickup_datetime Cluster on affiliated_base_number
-- Partition by pickup_datetime Cluster on affiliated_base_number
-- Partition by pickup_datetime Partition by affiliated_base_number
-- Partition by affiliated_base_number Cluster on pickup_datetime
+- [x] Cluster on pickup_datetime Cluster on affiliated_base_number
+- [ ] Partition by pickup_datetime Cluster on affiliated_base_number
+- [ ] Partition by pickup_datetime Partition by affiliated_base_number
+- [ ] Partition by affiliated_base_number Cluster on pickup_datetime
+
+> Note: Main reason to cluster these would be the high cardinality of the set making them unsuitable for partitioning. We could presumably partition by pickup_datetime if we calculate the month/week on it
 
 ## Question 5:
 Implement the optimized solution you chose for question 4. Write a query to retrieve the distinct affiliated_base_number between pickup_datetime 2019/03/01 and 2019/03/31 (inclusive).</br> 
